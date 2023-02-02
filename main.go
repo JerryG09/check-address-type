@@ -2,9 +2,10 @@ package main
 
 import (
     "context"
-    "github.com/ethereum/go-ethereum/ethclient"
     "log"
+    "github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/joho/godotenv"
     "bufio"
 	"fmt"
 	"os"
@@ -13,7 +14,12 @@ import (
 )
 
 func main() {
-    client, err := ethclient.Dial("https://mainnet.infura.io/v3/aada9accef8a41fd8f503b051c6ed8bc")
+	err := godotenv.Load()
+	if err != nil {
+	log.Fatal("Error loading .env file")
+	}
+	infuraUrl := os.Getenv("INFURA_URL")
+    client, err := ethclient.Dial(infuraUrl)
 	if err != nil {
 		fmt.Println("Error connecting to Ethereum node:", err)
 		return
